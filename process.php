@@ -4,7 +4,7 @@ if( $_SERVER['REQUEST_METHOD'] != 'POST' ) {
     die("Access denied");
 }
 
-$images_path = "./creatures/";
+$images_path = "creatures/";
 
 if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter']) ){
 
@@ -16,9 +16,9 @@ if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter'])
 	$filename = $_POST['filename'];
 	$filter = $_POST['filter'];
 
-	print_r($_POST);
+	
 
-	if( @file_put_contents ( $images_path . $filename, $image_src ) ) {
+	if( file_put_contents ( $images_path . $filename, $image_src ) ) {
 
 	    echo json_encode( array("true") );
 
