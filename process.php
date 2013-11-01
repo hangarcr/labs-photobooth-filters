@@ -24,7 +24,7 @@ if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter'])
 	    // echo json_encode( array("true") );
 
 	    $url = gd_filter_image($images_path . $filename, $filter, $headline);
-	    $url = $_SERVER['HTTP_HOST'] . "/" .  dirname(__FILE__) . "/" . $url;
+	    $url = "http://" . $_SERVER['HTTP_HOST'] . "/labs-photobooth-filters/" . $url;
 	    echo json_encode(array('url'=>$url));
 	} else {
 
