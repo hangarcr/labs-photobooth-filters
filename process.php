@@ -14,6 +14,7 @@ if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter'])
 	$image_src = base64_decode($image_src);
 
 	$filename = $_POST['filename'];
+
 	$filter = $_POST['filter'];
 	$headline = $_POST['headline'];
 
@@ -42,7 +43,9 @@ if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter'])
 /** Apply and deliver the image and clean up */
 function gd_filter_image($image_path, $filter_name, $headline)
 {
+	
 	$filter = 'gd_filter_' . $filter_name;
+
 	if (function_exists($filter)) {
 		list($width, $height) = getimagesize($image_path);
 		
@@ -53,11 +56,12 @@ function gd_filter_image($image_path, $filter_name, $headline)
 		$im = $filter($im);
 
 		
-		if($headline == 'undefined'){
+		if($headline == ''){
 			$name_container_image   = 'booth/booth.png';			
 		} else {
 			$name_container_image   = 'booth/booth'.$headline.'.png';			
 		}
+		
 		$name_merged_image      = $image_path;
 
 		$base_image             = $im;
@@ -79,6 +83,35 @@ function gd_filter_image($image_path, $filter_name, $headline)
 		// imagedestroy($src);
 			
 
+	} else {
+
+		list($width, $height) = getimagesize($image_path);
+		
+		$im = imagecreatetruecolor($width, $height);
+		$src = imagecreatefromjpeg($image_path);
+		imagecopyresampled($im, $src, 0, 0, 0, 0, $width, $height, $width, $height);
+
+		if($headline == ''){
+			$name_container_image   = 'booth/booth.png';			
+		} else {
+			$name_container_image   = 'booth/booth'.$headline.'.png';			
+		}
+		
+		$name_merged_image      = $image_path;
+
+		$base_image             = $im;
+		$container_image        = imagecreatefrompng( $name_container_image );
+		list( $width, $height ) = getimagesize( $name_container_image );
+
+		imagesavealpha( $container_image, TRUE );
+		imagealphablending( $container_image, TRUE );
+
+		// header( 'Content-Type: image/png' );
+		imagecopy( $base_image, $container_image, 0, 0, 0, 0, $width, $height );
+		// imagepng( $base_image );
+		imagepng( $base_image, $name_merged_image );
+
+		return $name_merged_image;
 	}
 }
 
