@@ -24,7 +24,9 @@ if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter'])
 	    // echo json_encode( array("true") );
 
 	    $url = gd_filter_image($images_path . $filename, $filter, $headline);
+
 	    $url = "http://" . $_SERVER['HTTP_HOST'] . "/labs-photobooth-filters/" . $url;
+
 	    echo json_encode(array('url'=>$url));
 	} else {
 
@@ -51,7 +53,11 @@ function gd_filter_image($image_path, $filter_name, $headline)
 		$im = $filter($im);
 
 		
-		$name_container_image   = 'booth/booth'.$headline.'.png';
+		if($headline == 'undefined'){
+			$name_container_image   = 'booth/booth.png';			
+		} else {
+			$name_container_image   = 'booth/booth'.$headline.'.png';			
+		}
 		$name_merged_image      = $image_path;
 
 		$base_image             = $im;
