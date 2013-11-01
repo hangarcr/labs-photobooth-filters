@@ -12,14 +12,16 @@ if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter'])
 
 	$image_data = $_POST['data'];
 
+	var_dump( $image_data );
 	$image_src = str_replace("data:image/jpeg;base64,", "", $image_data);
+	var_dump( $image_src );
 	$image_src = base64_decode($image_src);
+	var_dump( $image_src );
 
 	$filename = $_POST['filename'];
 	$filter = $_POST['filter'];
 
 	
-	var_dump( $image_src );
 
 	if( file_put_contents( $images_path . $filename, $image_src)) {
 
