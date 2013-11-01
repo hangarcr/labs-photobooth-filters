@@ -20,7 +20,7 @@ if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter'])
 
 	if( @file_put_contents( $images_path . $filename, $image_src)) {
 
-	    echo json_encode( array("true") );
+	    // echo json_encode( array("true") );
 
 	    gd_filter_image($images_path . $filename, $filter);
 
@@ -47,11 +47,16 @@ function gd_filter_image($image_path, $filter_name)
 		imagecopyresampled($im, $src, 0, 0, 0, 0, $width, $height, $width, $height);
 		
 		$im = $filter($im);
-		
-		header('Content-type: image/jpeg');
-		imagejpeg($im, null, 100);
-		imagedestroy($im);
-		imagedestroy($src);
+		var_dump($im);
+		if( @file_put_contents( $images_path, $im) ) {
+
+			header('Content-type: image/jpeg');
+			imagejpeg($im, null, 100);
+			imagedestroy($im);
+			imagedestroy($src);
+			
+		}
+
 	}
 }
 
