@@ -19,6 +19,7 @@ if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter'])
 	$filter = $_POST['filter'];
 
 	
+	var_dump( $image_src );
 
 	if( file_put_contents( $images_path . $filename, $image_src)) {
 
