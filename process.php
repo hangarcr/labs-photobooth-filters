@@ -24,7 +24,7 @@ if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter'])
 	    // echo json_encode( array("true") );
 
 	    $url = gd_filter_image($images_path . $filename, $filter, $headline);
-	    echo json_decode(array('url'=>$url));
+	    echo json_encode(array('url'=>$url));
 	} else {
 
 	    echo json_encode( array("false") );
@@ -64,7 +64,7 @@ function gd_filter_image($image_path, $filter_name, $headline)
 		imagecopy( $base_image, $container_image, 0, 0, 0, 0, $width, $height );
 		// imagepng( $base_image );
 		imagepng( $base_image, $name_merged_image );
-
+		
 		return $name_merged_image;
 		// header('Content-type: image/jpeg');
 		// imagejpeg($im, $image_path, 100);
