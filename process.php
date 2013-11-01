@@ -20,7 +20,7 @@ if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter'])
 
 	
 
-	if( file_put_contents ( $images_path . $filename, $image_src ) ) {
+	if( file_put_contents( $images_path . $filename, $image_src)) {
 
 	    echo json_encode( array("true") );
 
