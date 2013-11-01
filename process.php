@@ -47,15 +47,12 @@ function gd_filter_image($image_path, $filter_name)
 		imagecopyresampled($im, $src, 0, 0, 0, 0, $width, $height, $width, $height);
 		
 		$im = $filter($im);
-		var_dump($im);
-		if( @file_put_contents( $images_path, $im) ) {
 
-			header('Content-type: image/jpeg');
-			imagejpeg($im, null, 100);
-			imagedestroy($im);
-			imagedestroy($src);
+		header('Content-type: image/jpeg');
+		imagejpeg($im, $image_path, 100);
+		imagedestroy($im);
+		imagedestroy($src);
 			
-		}
 
 	}
 }
