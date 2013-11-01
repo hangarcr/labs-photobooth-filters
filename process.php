@@ -23,8 +23,8 @@ if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter'])
 
 	    // echo json_encode( array("true") );
 
-	    gd_filter_image($images_path . $filename, $filter);
-
+	    $url = gd_filter_image($images_path . $filename, $filter, $headline);
+	    echo json_decode(array('url'=>$url));
 	} else {
 
 	    echo json_encode( array("false") );
@@ -37,7 +37,7 @@ if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter'])
 
 
 /** Apply and deliver the image and clean up */
-function gd_filter_image($image_path, $filter_name)
+function gd_filter_image($image_path, $filter_name, $headline)
 {
 	$filter = 'gd_filter_' . $filter_name;
 	if (function_exists($filter)) {
@@ -49,12 +49,27 @@ function gd_filter_image($image_path, $filter_name)
 		
 		$im = $filter($im);
 
-		// $headline
+		
+		$name_container_image   = 'booth/booth'.$headline.'.png';
+		$name_merged_image      = $image_path;
 
-		header('Content-type: image/jpeg');
-		imagejpeg($im, $image_path, 100);
-		imagedestroy($im);
-		imagedestroy($src);
+		$base_image             = $im;
+		$container_image        = imagecreatefrompng( $name_container_image );
+		list( $width, $height ) = getimagesize( $name_container_image );
+
+		imagesavealpha( $container_image, TRUE );
+		imagealphablending( $container_image, TRUE );
+
+		// header( 'Content-Type: image/png' );
+		imagecopy( $base_image, $container_image, 0, 0, 0, 0, $width, $height );
+		// imagepng( $base_image );
+		imagepng( $base_image, $name_merged_image );
+
+		return $name_merged_image;
+		// header('Content-type: image/jpeg');
+		// imagejpeg($im, $image_path, 100);
+		// imagedestroy($im);
+		// imagedestroy($src);
 			
 
 	}
