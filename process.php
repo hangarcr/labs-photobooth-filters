@@ -85,6 +85,10 @@ function gd_filter_image($image_path, $filter_name, $headline)
 
 	} else {
 
+		var_dump($image_path);
+		var_dump($filter_name);
+		var_dump($headline);
+
 		list($width, $height) = getimagesize($image_path);
 		
 		$im = imagecreatetruecolor($width, $height);
