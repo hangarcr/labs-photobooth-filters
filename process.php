@@ -6,7 +6,7 @@ if( $_SERVER['REQUEST_METHOD'] != 'POST' ) {
 
 $images_path = "creatures/";
 
-if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter']) ){
+if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter']) && isset($_POST['headline'])){
 
 	$image_data = $_POST['data'];
 
@@ -15,6 +15,7 @@ if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter'])
 
 	$filename = $_POST['filename'];
 	$filter = $_POST['filter'];
+	$headline = $_POST['headline'];
 
 	
 
@@ -47,6 +48,8 @@ function gd_filter_image($image_path, $filter_name)
 		imagecopyresampled($im, $src, 0, 0, 0, 0, $width, $height, $width, $height);
 		
 		$im = $filter($im);
+
+		// $headline
 
 		header('Content-type: image/jpeg');
 		imagejpeg($im, $image_path, 100);
