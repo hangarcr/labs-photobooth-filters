@@ -1,7 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
-
 if( $_SERVER['REQUEST_METHOD'] != 'POST' ) {
     die("Access denied");
 }
@@ -12,7 +10,7 @@ if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter'])
 
 	$image_data = $_POST['data'];
 
-	$image_src = str_replace("data:image/png;base64,", "", $image_data);
+	$image_src = str_replace("data:image/jpeg;base64,", "", $image_data);
 	$image_src = base64_decode($image_src);
 
 	$filename = $_POST['filename'];
@@ -20,7 +18,7 @@ if(isset($_POST['data']) && isset($_POST['filename']) && isset($_POST['filter'])
 
 	
 
-	if( file_put_contents( $images_path . $filename, $image_src)) {
+	if( @file_put_contents( $images_path . $filename, $image_src)) {
 
 	    echo json_encode( array("true") );
 
